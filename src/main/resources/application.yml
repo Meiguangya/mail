@@ -1,8 +1,8 @@
 spring:
   mail:
-    host: smtp.163.com
-    username: 15871737166@163.com
-    password: meiguangya2550
+    host: smtp.qq.com
+    username: meiguangya@qq.com
+    password: nwbjigqymkkgbafj
     default-encoding: UTF-8
 server:
   port: 8081

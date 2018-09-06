@@ -16,25 +16,39 @@ public class MailServiceTest {
     MailService mailService;
 
     @Test
-    public void sayHiTest(){
+    public void sayHiTest() {
         mailService.sayHi();
     }
 
     @Test
-    public void sendSimpleMailTest(){
-        String to="1264348585@qq.com";
-        String subject="发邮件了...";
-        String content="我在用Springboot给你发邮件";
-        mailService.sendSimpleMail(to,subject,content);
+    public void sendAttachmentMailTest() {
+        String to = "15871737166@163.com";
+        String subject = "发邮件了...";
+        String content = "我在用Springboot给你发邮件";
+        String filePath = "C:\\Users\\meiguangya\\Pictures\\pic\\楪祈.jpg";
+
+        try {
+            mailService.sendAttachmentMail(to, subject, content, filePath);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void sendHtmlMailTest(){
-        String to="1264348585@qq.com";
-        String subject="This is a html mail";
-        String content="......";
+    public void sendSimpleMailTest() {
+        String to = "1264348585@qq.com";
+        String subject = "发邮件了...";
+        String content = "我在用Springboot给你发邮件";
+        mailService.sendSimpleMail(to, subject, content);
+    }
+
+    @Test
+    public void sendHtmlMailTest() {
+        String to = "1264348585@qq.com";
+        String subject = "This is a html mail";
+        String content = "......";
         try {
-            mailService.sendHtmlMail(to,subject,content);
+            mailService.sendHtmlMail(to, subject, content);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
