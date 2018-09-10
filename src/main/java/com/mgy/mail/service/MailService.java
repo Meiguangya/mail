@@ -7,11 +7,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import sun.management.FileSystem;
+import org.thymeleaf.TemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.validation.Valid;
 import java.io.File;
 
 /**
@@ -25,6 +24,29 @@ public class MailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    /**
+     * 发送图片邮件
+     * @param to
+     * @param subject
+     * @param content
+     * @param rscPath 资源路径
+     * @param rscId 资源ID
+     * @throws MessagingException
+     */
+    public void sendInlinReasourceMail(String to, String subject, String content, String rscPath, String rscId) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
+        messageHelper.setTo(to);
+        messageHelper.setText(content);
+        messageHelper.setSubject(subject);
+        message.setFrom(from);
+
+        FileSystemResource fileSystemResource = new FileSystemResource(new File(rscPath));
+        messageHelper.addInline(rscId, fileSystemResource);
+
+        javaMailSender.send(message);
+    }
 
     /**
      * 发送附件邮件

@@ -3,3 +3,5 @@
 配置邮箱参数
 封装SimpleMailMessage
 JavaMailSender发送
+
+模板邮件

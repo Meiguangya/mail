@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 
@@ -15,9 +17,52 @@ public class MailServiceTest {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    TemplateEngine templateEngine;
+
     @Test
     public void sayHiTest() {
         mailService.sayHi();
+    }
+
+    @Test
+    public void templateMailTest(){
+        Context context = new Context();
+        context.setVariable("id","1");
+
+        String emailContent = templateEngine.process("emailTemplate",context);
+
+        String to = "15871737166@163.com";
+        String subject = "发邮件了...";
+        try {
+            mailService.sendHtmlMail(to,subject,emailContent);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void sendInlinReasourceMailTest() {
+        String to = "15871737166@163.com";
+        String subject = "发邮件了...";
+        String resPath = "C:\\Users\\meiguangya\\Pictures\\pic\\大圣.jpg";
+
+        String resId = "img001";
+
+        String content = "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Title</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <img src=\'cid:"+resId+"\'/>\n" +
+                "</body>\n" +
+                "</html>";
+        try {
+            mailService.sendInlinReasourceMail(to, subject, content, resPath, resId);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
